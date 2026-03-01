@@ -1,6 +1,6 @@
 import { Phone, Mail, MapPin } from "lucide-react";
+// import NavbarClient from "./NavbarClient";
 import NavbarClient from "./NavbarClient";
-
 async function getPackages() {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/packages`, {
