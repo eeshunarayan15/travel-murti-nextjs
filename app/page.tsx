@@ -27,26 +27,68 @@ export const metadata: Metadata = {
 };
 
 // Server-side data fetching
+// async function getHomeData() {
+//   const API_URL =
+//     process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api";
+
+//   try {
+//     const [dealsRes, latestRes, spiritualRes] = await Promise.all([
+//       fetch(`${API_URL}/subpackages/deal-of-the-day`, {
+//         next: { revalidate: 3600 },
+//       }),
+//       fetch(`${API_URL}/subpackages/latest`, { next: { revalidate: 3600 } }),
+//       fetch(`${API_URL}/subpackages/package/spiritual-tour`, {
+//         next: { revalidate: 3600 },
+//       }),
+//     ]);
+
+//     const deals = dealsRes.ok ? (await dealsRes.json())?.data || [] : [];
+//     const latest = latestRes.ok ? (await latestRes.json())?.data || [] : [];
+//     const spiritual = spiritualRes.ok
+//       ? (await spiritualRes.json())?.data || []
+//       : [];
+
+//     return { deals, latest, spiritual };
+//   } catch (error) {
+//     console.error("Error fetching home data:", error);
+//     return { deals: [], latest: [], spiritual: [] };
+//   }
+// }
 async function getHomeData() {
   const API_URL =
-    process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api";
+    process.env.NEXT_PUBLIC_API_URL || "https://travel-murti.onrender.com/api";
 
   try {
     const [dealsRes, latestRes, spiritualRes] = await Promise.all([
       fetch(`${API_URL}/subpackages/deal-of-the-day`, {
         next: { revalidate: 3600 },
+        cache: "no-store", // Add this for testing
       }),
-      fetch(`${API_URL}/subpackages/latest`, { next: { revalidate: 3600 } }),
+      fetch(`${API_URL}/subpackages/latest`, {
+        next: { revalidate: 3600 },
+        cache: "no-store",
+      }),
       fetch(`${API_URL}/subpackages/package/spiritual-tour`, {
         next: { revalidate: 3600 },
+        cache: "no-store",
       }),
     ]);
 
-    const deals = dealsRes.ok ? (await dealsRes.json())?.data || [] : [];
-    const latest = latestRes.ok ? (await latestRes.json())?.data || [] : [];
-    const spiritual = spiritualRes.ok
-      ? (await spiritualRes.json())?.data || []
-      : [];
+    console.log("Deals status:", dealsRes.status);
+    console.log("Latest status:", latestRes.status);
+    console.log("Spiritual status:", spiritualRes.status);
+
+    const dealsData = dealsRes.ok ? await dealsRes.json() : null;
+    const latestData = latestRes.ok ? await latestRes.json() : null;
+    const spiritualData = spiritualRes.ok ? await spiritualRes.json() : null;
+
+    console.log("Deals data:", dealsData);
+    console.log("Latest data:", latestData);
+    console.log("Spiritual data:", spiritualData);
+
+    const deals = dealsData?.data || dealsData || [];
+    const latest = latestData?.data || latestData || [];
+    const spiritual = spiritualData?.data || spiritualData || [];
 
     return { deals, latest, spiritual };
   } catch (error) {
@@ -54,6 +96,7 @@ async function getHomeData() {
     return { deals: [], latest: [], spiritual: [] };
   }
 }
+
 
 export default async function HomePage() {
   const { deals, latest, spiritual } = await getHomeData();
