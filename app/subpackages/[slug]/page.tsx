@@ -1,7 +1,10 @@
+// import Banner from "@/app/components/SubPackageDetails/Banner";
+// import Description from "@/app/components/SubPackageDetails/Description";
+// import RelatedSubPackages from "@/app/components/SubPackageDetails/RelatedSubPackages";
+import { notFound } from "next/navigation";
 import Banner from "@/app/components/SubPackageDetails/Banner";
 import Description from "@/app/components/SubPackageDetails/Description";
 import RelatedSubPackages from "@/app/components/SubPackageDetails/RelatedSubPackages";
-
 async function getSubPackageDetails(packageSlug: string, subSlug: string) {
   const API_URL =
     process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api";
