@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronDown, Menu, X, Phone, Mail } from "lucide-react";
 
-export default function NavbarClient({ packages }) {
+export default function NavbarClient({ packages }: { packages: any[] }) {
   const [subPackages, setSubPackages] = useState({});
   const [loading, setLoading] = useState({});
   const [openDropdown, setOpenDropdown] = useState(null);
