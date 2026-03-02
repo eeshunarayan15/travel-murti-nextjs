@@ -4,8 +4,9 @@ import Description from "@/app/components/SubPackageDetails/Description";
 import RelatedSubPackages from "@/app/components/SubPackageDetails/RelatedSubPackages";
 
 async function getSubPackageDetails(packageSlug: string, subSlug: string) {
-  const API_URL =
-    process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api";
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL || "https://travel-murti.onrender.com/api";
+
 
   try {
     const res = await fetch(
